@@ -7,6 +7,7 @@ import com.israel.api_blog.post.dto.response.PostResponseDto;
 import com.israel.api_blog.post.dto.response.UpdatePostResponseDto;
 import com.israel.api_blog.post.service.PostService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +25,7 @@ public class PostController {
     private final PostService postService;
 
     @GetMapping("/{postId}")
-    public ResponseEntity<PostResponseDto> getPostById(@PathVariable("postId") Long postId) {
+    public ResponseEntity<PostResponseDto> getPostById(@Min(1) @PathVariable("postId") Long postId) {
         return ResponseEntity.ok(postService.getPostById(postId));
     }
 
@@ -40,14 +41,14 @@ public class PostController {
 
     @PutMapping("/{postId}")
     public ResponseEntity<UpdatePostResponseDto> updatePost(
-            @PathVariable("postId") Long postId,
+            @Min(1) @PathVariable("postId") Long postId,
             @RequestBody @Valid UpdatePostRequestDto updatePostRequestDto
     ) {
         return ResponseEntity.ok(postService.updatePost(postId, updatePostRequestDto));
     }
 
     @DeleteMapping("/delete/{postId}")
-    public ResponseEntity<Void> deletePost(@PathVariable("postId") Long postId) {
+    public ResponseEntity<Void> deletePost(@Min(1) @PathVariable("postId") Long postId) {
         postService.deletePost(postId);
         return ResponseEntity.noContent().build();
     }

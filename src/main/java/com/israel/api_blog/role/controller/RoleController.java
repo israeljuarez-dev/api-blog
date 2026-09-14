@@ -5,6 +5,7 @@ import com.israel.api_blog.role.dto.request.UpdateRoleRequestDto;
 import com.israel.api_blog.role.dto.response.RoleResponseDto;
 import com.israel.api_blog.role.service.RoleService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,7 @@ public class RoleController {
     private final RoleService roleService;
 
     @GetMapping("/{roleId}")
-    public ResponseEntity<RoleResponseDto> getRoleById(@PathVariable("roleId") Long roleId) {
+    public ResponseEntity<RoleResponseDto> getRoleById(@Min(1) @PathVariable("roleId") Long roleId) {
         return ResponseEntity.ok(roleService.getRoleById(roleId));
     }
 
@@ -38,14 +39,14 @@ public class RoleController {
 
     @PutMapping("/{roleId}")
     public ResponseEntity<RoleResponseDto> updateRole(
-            @PathVariable("roleId") Long roleId,
+            @Min(1) @PathVariable("roleId") Long roleId,
             @RequestBody @Valid UpdateRoleRequestDto updateRoleRequestDto
     ) {
         return ResponseEntity.ok(roleService.updateRole(roleId, updateRoleRequestDto));
     }
 
     @DeleteMapping("/delete/{roleId}")
-    public ResponseEntity<Void> deleteRole(@PathVariable("roleId") Long roleId) {
+    public ResponseEntity<Void> deleteRole(@Min(1) @PathVariable("roleId") Long roleId) {
         roleService.deleteRole(roleId);
         return ResponseEntity.noContent().build();
     }

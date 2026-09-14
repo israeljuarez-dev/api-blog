@@ -7,6 +7,7 @@ import com.israel.api_blog.author.dto.response.CreateAuthorResponseDto;
 import com.israel.api_blog.author.dto.response.UpdateAuthorResponseDto;
 import com.israel.api_blog.author.service.AuthorService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +25,7 @@ public class AuthorController {
     private final AuthorService authorService;
 
     @GetMapping("/{authorId}")
-    public ResponseEntity<AuthorResponseDto> getAuthorById(@PathVariable("authorId") Long authorId) {
+    public ResponseEntity<AuthorResponseDto> getAuthorById(@Min(1) @PathVariable("authorId") Long authorId) {
         return ResponseEntity.ok(authorService.getAuthorById(authorId));
     }
 
@@ -40,14 +41,14 @@ public class AuthorController {
 
     @PutMapping("/{authorId}")
     public ResponseEntity<UpdateAuthorResponseDto> updateAuthor(
-            @PathVariable("authorId") Long authorId,
+            @Min(1) @PathVariable("authorId") Long authorId,
             @RequestBody @Valid UpdateAuthorRequestDto updateAuthorRequestDto
     ) {
         return ResponseEntity.ok(authorService.updateAuthor(authorId, updateAuthorRequestDto));
     }
 
     @DeleteMapping("/{authorId}")
-    public ResponseEntity<Void> deleteAuthor(@PathVariable("authorId") Long authorId) {
+    public ResponseEntity<Void> deleteAuthor(@Min(1) @PathVariable("authorId") Long authorId) {
         authorService.deleteAuthor(authorId);
         return ResponseEntity.noContent().build();
     }

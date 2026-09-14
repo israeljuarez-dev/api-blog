@@ -4,6 +4,7 @@ import com.israel.api_blog.user.dto.request.UpdateUserRequestDto;
 import com.israel.api_blog.user.dto.response.UserResponseDto;
 import com.israel.api_blog.user.service.UserService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -20,7 +21,7 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/{userId}")
-    public ResponseEntity<UserResponseDto> getUserById(@PathVariable("userId") Long userId) {
+    public ResponseEntity<UserResponseDto> getUserById(@Min(1) @PathVariable("userId") Long userId) {
         return ResponseEntity.ok(userService.getUserById(userId));
     }
 
@@ -31,14 +32,14 @@ public class UserController {
 
     @PutMapping("/{userId}")
     public ResponseEntity<UserResponseDto> updateUser(
-            @PathVariable("userId") Long userId,
+            @Min(1) @PathVariable("userId") Long userId,
             @RequestBody @Valid UpdateUserRequestDto updateUserRequestDto
     ) {
         return ResponseEntity.ok(userService.updateUser(userId, updateUserRequestDto));
     }
 
     @DeleteMapping("/delete/{userId}")
-    public ResponseEntity<Void> deleteUser(@PathVariable("userId") Long userId) {
+    public ResponseEntity<Void> deleteUser(@Min(1) @PathVariable("userId") Long userId) {
         userService.deleteUser(userId);
         return ResponseEntity.noContent().build();
     }

@@ -5,6 +5,7 @@ import com.israel.api_blog.permission.dto.request.UpdatePermissionRequestDto;
 import com.israel.api_blog.permission.dto.response.PermissionResponseDto;
 import com.israel.api_blog.permission.service.PermissionService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,7 @@ public class PermissionController {
     private final PermissionService permissionService;
 
     @GetMapping("/{permissionId}")
-    public ResponseEntity<PermissionResponseDto> getPermissionById(@PathVariable("permissionId") Long permissionId) {
+    public ResponseEntity<PermissionResponseDto> getPermissionById(@Min(1) @PathVariable("permissionId") Long permissionId) {
         return ResponseEntity.ok(permissionService.getPermissionById(permissionId));
     }
 
@@ -38,14 +39,14 @@ public class PermissionController {
 
     @PutMapping("/{permissionId}")
     public ResponseEntity<PermissionResponseDto> updatePermission(
-            @PathVariable("permissionId") Long permissionId,
+            @Min(1) @PathVariable("permissionId") Long permissionId,
             @RequestBody @Valid UpdatePermissionRequestDto updatePermissionRequestDto
     ) {
         return ResponseEntity.ok(permissionService.updatePermission(permissionId, updatePermissionRequestDto));
     }
 
     @DeleteMapping("/delete/{permissionId}")
-    public ResponseEntity<Void> deletePermission(@PathVariable("permissionId") Long permissionId) {
+    public ResponseEntity<Void> deletePermission(@Min(1) @PathVariable("permissionId") Long permissionId) {
         permissionService.deletePermission(permissionId);
         return ResponseEntity.noContent().build();
     }
